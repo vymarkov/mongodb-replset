@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  redis:
+    extends: 
+      file: docker-compose.common.yml
+      service: redis
+    ports: 
+    - 6379:6379

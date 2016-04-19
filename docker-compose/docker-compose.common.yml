@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: '5m'
+        max-file: '5'
+    environment: 
+    - PATH=./node_modules/.bin:$PATH
+  
+  manul:
+    image: vymarkov/manul:0.0.1
+    env_file: 
+    - ./env/.env
+    - ./env/.env.mongo
+    ports:
+    - 3000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: '5m'
+        max-file: '5'
+        
+  redis:
+    image: redis:3-alpine
+    logging:
+      driver: "json-file"
+      options:
+        max-size: '5m'
+        max-file: '5'
+    
+  mongo:
+    image: vymarkov/mongo:latest
+    env_file:
+    - ./env/.env.mongo
+    labels:
+    - "service=mongo"
+    - "replset=rs0"
+    ports: 
+    - 27017:27017
+    logging:
+      driver: "json-file"
+      options:
+        max-size: '5m'
+        max-file: '5'

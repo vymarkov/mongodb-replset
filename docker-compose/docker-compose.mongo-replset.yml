@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  mongo-primary:
+    extends: 
+      file: docker-compose.common.yml
+      service: mongo
+    environment:
+    - MONGODB_REPLSET=yes
+    - MONGODB_REPLSET_ROLE=primary
+  
+  mongo-secondary:
+    extends: 
+      file: docker-compose.common.yml
+      service: mongo
+    environment: 
+    - MONGODB_REPLSET=yes
+    - MONGODB_REPLSET_ROLE=secondary
+  
+  mongo-arbiter:
+    extends: 
+      file: docker-compose.common.yml
+      service: mongo
+    environment: 
+    - MONGODB_REPLSET=yes
+    - MONGODB_REPLSET_ROLE=arbiter
