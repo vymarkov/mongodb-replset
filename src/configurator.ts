@@ -11,7 +11,8 @@ namespace replset {
   // const _ = require('lodash');
   const _ = {
     chain: require('lodash/fp/chain'),
-    find: require('lodash/fp/find')
+    find: require('lodash/fp/find'),
+    cloneDeep: require('lodash/fp/cloneDeep')
   };
 
   const MongoClient = mongodb.MongoClient;
@@ -392,7 +393,7 @@ namespace replset {
           if (err) {
             return reject(err);
           }
-          resolve(body.split(',').map(str => str.trim));
+          resolve(body.split(',').map(str => str.trim()));
         });
       });
     };
