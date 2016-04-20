@@ -4,5 +4,7 @@
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
     "node": "registry:dt/node#4.0.0+20160330064709"
   },
-  "dependencies": {}
+  "dependencies": {
+    "mongodb": "registry:npm/mongodb#2.1.0+20160418174125"
+  }
 }
