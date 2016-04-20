@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vymarkov/mongodb-replset"
+  },
   "scripts": {
     "test": "./node_modules/.bin/mocha -t 10s dist/**/*.js"
   },
