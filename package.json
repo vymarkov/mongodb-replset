@@ -15,6 +15,7 @@
     "bunyan": "^1.8.0",
     "debug": "^2.2.0",
     "dockerode": "^2.2.6",
+    "faker": "^3.1.0",
     "lodash": "^4.11.1",
     "mongodb": "^2.0.49",
     "mongodb-uri": "^0.9.7",
@@ -26,7 +27,7 @@
     "moniker": "^0.1.2",
     "should": "^7.1.1",
     "ts-node": "^0.7.1",
-    "typescript": "^1.8.9",
-    "typings": "^0.7.12"
+    "typescript": "latest",
+    "typings": "latest"
   }
 }
