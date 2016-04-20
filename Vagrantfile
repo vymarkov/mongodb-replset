@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     echo 'export MONGO_PORT=27001' >> $HOME/.bashrc
     echo 'export COMPOSE_PROJECT_NAME=magnesium' >> $HOME/.bashrc
     echo 'export COMPOSE_FILE=/home/vagrant/app/docker-compose.yml' >> $HOME/.bashrc
-  SCRIPT
+SCRIPT
 
   config.vm.provision :docker
   config.vm.provision :docker_compose, yml: "/home/vagrant/app/docker-compose.yml", rebuild: false, project_name: "magnesium", run: "always"
