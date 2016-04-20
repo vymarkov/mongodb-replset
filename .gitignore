@@ -60,3 +60,4 @@ jspm_packages
 
 test.js
 typings/
+dist/
