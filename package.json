@@ -9,7 +9,8 @@
     "url": "https://github.com/vymarkov/mongodb-replset"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha -t 10s dist/**/*.js"
+    "test": "./node_modules/.bin/mocha -t 10s dist/**/*.js",
+    "build": "./node_modules/.bin/tsc"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "lodash": "^4.11.1",
     "mongodb": "^2.0.49",
     "mongodb-uri": "^0.9.7",
+    "mongoose": "latest",
     "redis": "^2.6.0-1",
     "request": "^2.67.0"
   },
