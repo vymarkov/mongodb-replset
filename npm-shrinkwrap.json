@@ -102,9 +102,9 @@
       }
     },
     "bluebird": {
-      "version": "3.3.4",
-      "from": "bluebird@>=3.0.5 <4.0.0",
-      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.4.tgz"
+      "version": "3.3.5",
+      "from": "bluebird@latest",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.5.tgz"
     },
     "boom": {
       "version": "2.10.1",
@@ -127,9 +127,9 @@
       "resolved": "https://registry.npmjs.org/bson/-/bson-0.4.23.tgz"
     },
     "bunyan": {
-      "version": "1.8.0",
+      "version": "1.8.1",
       "from": "bunyan@latest",
-      "resolved": "https://registry.npmjs.org/bunyan/-/bunyan-1.8.0.tgz"
+      "resolved": "https://registry.npmjs.org/bunyan/-/bunyan-1.8.1.tgz"
     },
     "capture-stack-trace": {
       "version": "1.0.0",
@@ -735,9 +735,9 @@
       }
     },
     "moment": {
-      "version": "2.12.0",
+      "version": "2.13.0",
       "from": "moment@>=2.10.6 <3.0.0",
-      "resolved": "https://registry.npmjs.org/moment/-/moment-2.12.0.tgz"
+      "resolved": "https://registry.npmjs.org/moment/-/moment-2.13.0.tgz"
     },
     "mongodb": {
       "version": "2.1.16",
@@ -762,9 +762,9 @@
       "resolved": "https://registry.npmjs.org/mongodb-uri/-/mongodb-uri-0.9.7.tgz"
     },
     "mongoose": {
-      "version": "4.4.12",
+      "version": "4.4.13",
       "from": "mongoose@latest",
-      "resolved": "https://registry.npmjs.org/mongoose/-/mongoose-4.4.12.tgz"
+      "resolved": "https://registry.npmjs.org/mongoose/-/mongoose-4.4.13.tgz"
     },
     "moniker": {
       "version": "0.1.2",
