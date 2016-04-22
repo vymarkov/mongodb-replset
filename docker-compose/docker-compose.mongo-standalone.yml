@@ -3,6 +3,9 @@ version: '2'
 services:
   mongo:
     image: mongo:3.2
+    labels:
+    - "service=mongo"
+    - "replset=rs0"
     volumes: 
     - ../mongo/mongod.conf:/etc/mongod.conf:ro
     command: mongod --config /etc/mongod.conf --port=27017 --replSet rs0 --noauth
