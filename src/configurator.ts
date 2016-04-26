@@ -1,5 +1,7 @@
 'use strict';
 
+// https://jira.mongodb.org/browse/SERVER-20144
+
 import * as util from 'util';
 import * as url from 'url';
 import * as Promise from 'bluebird';
@@ -8,7 +10,7 @@ namespace replset {
   const mongodb = require('mongodb');
   const mongodbUri = require('mongodb-uri');
   const request = require('request');
-  // const _ = require('lodash');
+
   const _ = {
     chain: require('lodash/fp/chain'),
     find: require('lodash/fp/find'),
@@ -102,10 +104,19 @@ namespace replset {
   }
 
   function selectMembersToAdd(services: string[], primary: string, members: ReplSetMember[]): string[] {
+    console.log('selectMembersToAdd', 1, 'services', services);
+    console.log('selectMembersToAdd', 2, 'primary', primary);
+    console.log('selectMembersToAdd', 3, 'members', members);
+
     return services
       .filter((srvUrl) => url.parse(srvUrl).host !== url.parse(primary).host)
-      .filter((srvUrl: string) => {
-        return !_.find(members, (m: ReplSetMember) => m.host === url.parse(srvUrl).host);
+      .filter((srvUrl) => {
+        for (var i = 0, host = url.parse(srvUrl).host, len = members.length; i < len; i++) {
+          if (members[i].host === host) {
+            return false;
+          }
+        }
+        return true;
       });
   }
 
@@ -135,12 +146,15 @@ namespace replset {
         }
         return isPrimaryDatabase(conf);
       }, (uri: string) => {
-        console.log('fetchMongoConf', 0, uri);
+        console.log('fetchPrimaryDatabase', 0, uri);
 
         return fetchMongoConf(prepareMongoUrl(uri)).then((conf: MongodConf) => {
           return Promise.resolve(conf);
         }).catch((err) => {
-          return Promise.resolve(err);
+          console.log('fetchPrimaryDatabase', 3, 'err', err);
+          
+          return Promise.reject(err);
+          // return Promise.resolve(err);
         });
       }, (conf: MongodConf) => {
         console.log('fetchPrimaryDatabase', 2, conf);
@@ -192,11 +206,14 @@ namespace replset {
                       if (host !== config.me) {
                         replSetGetConfig(uri)
                           .then((conf: ReplSetConfig) => {
+                            console.log('fetchMongoConf', 3, conf);
+
                             conf.version += 1;
                             conf.members[0].host = host;
-                            return replSetReconfig(uri)(conf);
-                          }).then(() => {
-                            resolve(config);
+                            return replSetReconfig(uri)(conf)
+                              .then(() => {
+                                resolve(conf);
+                              });
                           })
                           .catch(reject);
                       } else {
@@ -321,6 +338,8 @@ namespace replset {
     console.log('replSetReconfig', 1);
     
     return (conf: ReplSetConfig) => {
+      console.log('replSetReconfig', 2, conf);
+
       return connToDb(uri)
         .then((db) => {
           return db.command({
@@ -352,7 +371,9 @@ namespace replset {
   }
 
   function isPrimaryDatabase(conf: MongodConf) {
-    return conf.me === conf.primary;
+    if (conf.me && conf.primary && conf.me === conf.primary) {
+      return true;
+    }
   }
 
   function isPrimaryDatabaseTest() {
@@ -425,6 +446,11 @@ namespace replset {
     return <Promise<ReplSet>>fetchServices
       .then((services: string[]) => {
         console.log('sync', 0, services);
+
+        if (!services.length) {
+          return Promise.resolve(<ReplSet>{});
+        }
+
         return fetchPrimaryDatabase(services)
           .then((primary: string) => {
             primary = prepareMongoUrl(primary);
@@ -436,6 +462,8 @@ namespace replset {
             }).then((replset: { conf: ReplSetConfig, status: ReplSetStatus }) => {
               const addToReplset: ReplSetMember[] = selectMembersToAdd(services, primary, replset.conf.members)
                 .map((srv) => Object({ host: url.parse(srv).host }));
+
+              console.log('sync', 2, addToReplset);
 
               const config = prepareReplSetConfig(replset.conf, addToReplset);
               if (config.version > replset.conf.version) {
