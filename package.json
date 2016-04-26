@@ -9,6 +9,7 @@
     "url": "https://github.com/vymarkov/mongodb-replset"
   },
   "scripts": {
+    "start": "node ./dist/examples/forever",
     "test": "./node_modules/.bin/mocha -t 10s dist/**/*.js",
     "build": "./node_modules/.bin/tsc"
   },
