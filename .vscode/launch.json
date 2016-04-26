@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/app/bin/www.js",
+			"program": "${workspaceRoot}/src/examples/forever.ts",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}/",
@@ -15,11 +15,12 @@
         "--harmony"
 			],
 			"env": {
-				"NODE_ENV": "development"
+				"NODE_ENV": "development",
+				"MANUL_ADDR": "http://192.168.99.102:3000"
 			},
 			"externalConsole": false,
 			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/app"
+			"outDir": "${workspaceRoot}/dist"
 		},
 		{
 			"name": "Attach",
