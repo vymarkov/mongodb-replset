@@ -73,7 +73,7 @@ function connection(url: () => Promise<string>, schemas: () => Promise<any>) {
 			return new Promise((resolve: (any) => void, reject: (Error) => void) => {
 				cachedConn = mongoose.createConnection(m.url);
 				mongoose.set('debug', true);
-				cachedConn.on('error', (err) => {
+				cachedConn.on('error', (err) => {	
 					console.log('ocurred error', err.stack);
 				});
 				cachedConn.on('connected', () => {
@@ -83,7 +83,7 @@ function connection(url: () => Promise<string>, schemas: () => Promise<any>) {
 					console.log('---');
 
 					for (let schemaname of m.schemas.keys()) {
-						mongoose.model(schemaname, m.schemas.get(schemaname));
+						cachedConn.model(schemaname, m.schemas.get(schemaname));
 					}
 
 					resolve(cachedConn);
