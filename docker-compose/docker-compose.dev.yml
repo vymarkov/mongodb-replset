@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  app:
+    extends: 
+      file: docker-compose.common.yml
+      service: dev
+    volumes:
+    - ..:/usr/src/app:rw
+    environment: 
+    - MANUL_ADDR=http://manul:3000
+    - REDIS_ADDR=redis://redis:6369/1
+    - REDIS_CHANNEL_NAME=replset

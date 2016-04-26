@@ -6,6 +6,16 @@ services:
       context: ..
       dockerfile: Dockerfile
     logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+        max-file: '5'
+
+  dev:
+    build:
+      context: ..
+      dockerfile: Dockerfile.dev
+    logging:
       driver: "json-file"
       options:
         max-size: '5m'
@@ -35,7 +45,7 @@ services:
         max-file: '5'
     
   mongo:
-    image: vymarkov/mongo:latest
+    image: vymarkov/mongo:3.2
     env_file:
     - ./env/.env.mongo
     labels:
@@ -48,3 +58,4 @@ services:
       options:
         max-size: '5m'
         max-file: '5'
+    stop_signal: SIGTERM
