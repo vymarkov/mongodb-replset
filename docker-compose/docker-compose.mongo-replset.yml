@@ -5,6 +5,8 @@ services:
     extends: 
       file: docker-compose.common.yml
       service: mongo
+    ports: 
+    - 27017:27017
     environment:
     - MONGODB_REPLSET=yes
     - MONGODB_REPLSET_ROLE=primary
@@ -13,6 +15,8 @@ services:
     extends: 
       file: docker-compose.common.yml
       service: mongo
+    ports: 
+    - 27017:27017
     environment: 
     - MONGODB_REPLSET=yes
     - MONGODB_REPLSET_ROLE=secondary
@@ -21,6 +25,8 @@ services:
     extends: 
       file: docker-compose.common.yml
       service: mongo
+    ports: 
+    - 27017:27017
     environment: 
     - MONGODB_REPLSET=yes
     - MONGODB_REPLSET_ROLE=arbiter

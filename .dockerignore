@@ -1,5 +1,6 @@
 .vagrant
 .vscode
 node_modules
+typings
 dist
 docker-compose

@@ -5,10 +5,5 @@ services:
     extends:
       file: docker-compose.common.yml
       service: manul
-    environment: 
-    - DOCKER_HOST=${DOCKER_HOST}
-    - DOCKER_CA=${DOCKER_CA}
-    - DOCKER_CERT=${DOCKER_CERT}
-    - DOCKER_KEY=${DOCKER_KEY}
     ports: 
     - 3000:3000

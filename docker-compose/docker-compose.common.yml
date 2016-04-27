@@ -5,31 +5,24 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile
+    environment: 
+    - MANUL_ADDR=http://manul:3000
     logging:
       driver: 'json-file'
       options:
         max-size: '5m'
         max-file: '5'
-
-  dev:
-    build:
-      context: ..
-      dockerfile: Dockerfile.dev
-    logging:
-      driver: "json-file"
-      options:
-        max-size: '5m'
-        max-file: '5'
-    environment: 
-    - PATH=./node_modules/.bin:$PATH
   
   manul:
     image: vymarkov/manul:0.0.1
     env_file: 
     - ./env/.env
     - ./env/.env.mongo
-    ports:
-    - 3000
+    environment:
+    - DOCKER_HOST=${DOCKER_HOST}
+    - DOCKER_CA=${DOCKER_CA}
+    - DOCKER_CERT=${DOCKER_CERT}
+    - DOCKER_KEY=${DOCKER_KEY}
     logging:
       driver: "json-file"
       options:
@@ -51,8 +44,6 @@ services:
     labels:
     - "service=mongo"
     - "replset=rs0"
-    ports: 
-    - 27017:27017
     logging:
       driver: "json-file"
       options:

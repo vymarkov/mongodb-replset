@@ -1,0 +1,49 @@
+# https://docs.docker.com/compose/compose-file/
+
+version: '2'
+
+services:
+  app:
+    extends:
+      file: docker-compose.common.yml
+      service: app
+    depends_on:
+    - manul
+
+  manul:
+    extends:
+      file: docker-compose.common.yml
+      service: manul
+    ports: 
+    - 3000:3000
+    depends_on:
+    - mongo-primary
+    - mongo-secondary
+    
+  mongo-primary:
+    extends: 
+      file: docker-compose.common.yml
+      service: mongo
+    ports: 
+    - 27017
+    environment:
+    - MONGODB_REPLSET=yes
+    - MONGODB_REPLSET_ROLE=primary
+  
+  mongo-secondary:
+    extends: 
+      file: docker-compose.common.yml
+      service: mongo
+    ports: 
+    - 27017
+    environment: 
+    - MONGODB_REPLSET=yes
+    - MONGODB_REPLSET_ROLE=secondary
+  
+  # mongo-secondary-02:
+  #   extends: 
+  #     file: docker-compose.common.yml
+  #     service: mongo
+  #   environment: 
+  #   - MONGODB_REPLSET=yes
+  #   - MONGODB_REPLSET_ROLE=secondary
