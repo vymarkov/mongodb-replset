@@ -269,7 +269,6 @@ namespace replset {
             });
         })
         .catch((err) => {
-          err.args = arguments;
           reject(err);
         });
     });
@@ -439,7 +438,7 @@ namespace replset {
 
   export interface ReplSet {
     conf: ReplSetConfig;
-    status: ReplSetStatus
+    status: ReplSetStatus;
   }
 
   export function sync(fetchServices: Promise<string[]>): Promise<ReplSet> {
