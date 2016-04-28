@@ -1,7 +1,18 @@
 'use strict';
 
+/**
+ * 
+ * An example to demo how to work with the MongoDb Replica Set 
+ * using a native MongoDb driver for Node.js 
+ * based on primitive CRUD operations
+ * 
+ */
+
 import Promise = require('bluebird');
 import url = require('url');
+
+import {fetchServices} from '../fetchServices';
+import {mongoConnectionString} from '../mongoUrl';
 
 const request = require('request');
 const MongoClient = require('mongodb').MongoClient;
@@ -20,40 +31,6 @@ class WriteConcernOpts implements WriteConcern {
   j: boolean = false;
 
   constructor() { }
-}
-
-// @TODO: move to separate module
-function fetchServices(manulUrl: string) {
-  interface Opts {
-    filters: {
-      status: string[],
-      label: string[]
-    }
-  }
-
-  return (opts: Opts) => {
-    return <Promise<string>>new Promise<string[]>((resolve: (services: string[]) => void, reject: (err) => void) => {
-      request({
-        method: 'GET',
-        url: manulUrl,
-        qs: opts,
-        json: true,
-        timeout: 5 * 1000
-      }, (err, res, body) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(body.split(',').map(str => str.trim()));
-      });
-    }).then((services: string[]) => {
-      services = services.map(uri => url.parse(uri).host);
-      return Promise.resolve(services.join(','));
-    });
-  };
-};
-
-function mongoUrl(services: string) {
-  return Promise.resolve(`mongodb://admin:password@${services}/dev?replSet=rs0`);
 }
 
 function forever(fn: () => void, ms?: number) {
@@ -167,7 +144,13 @@ function startApp() : void {
       }
     })
     .then(services)
-    .then(mongoUrl)
+    .then((services: string) => {
+      let srvs = services.split(',').map((url) => {
+        let [host, port] = url.split(':');
+        return { host: host, port: +port || 27017 };   
+      });
+      return mongoConnectionString(() => Promise.resolve(srvs));
+    })
     .then(connection)
     .then((db) => {
       const collection = coll(db);
