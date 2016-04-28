@@ -11,7 +11,9 @@
   "scripts": {
     "start": "node ./dist/examples/forever",
     "test": "./node_modules/.bin/mocha -t 10s dist/**/*.js",
-    "build": "./node_modules/.bin/tsc"
+    "build": "./node_modules/.bin/tsc",
+    "typings": "./node_modules/.bin/typings in",
+    "install": "npm run typings && npm run build"
   },
   "keywords": [],
   "author": "",
