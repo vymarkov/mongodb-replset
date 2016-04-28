@@ -22,8 +22,8 @@ interface MongoDbUri {
 
 /*
  * Prepare a MongoDB Uri based on the environment variables
- */  
-export function mongoConnectionString(fetchServices: () => Promise<Service[]>) : Promise<string> {
+ */
+export function mongoConnectionString(fetchServices: () => Promise<Service[]>): Promise<string> {
 	const env = process.env;
 	const hosts = (env.MONGODB_HOSTS || '').split(',').map(hostname => {
 		let [host, port] = hostname.split(':');
@@ -33,8 +33,8 @@ export function mongoConnectionString(fetchServices: () => Promise<Service[]>) :
 	});
 	const [authEnabled, user, pass] = [env.MONGODB_AUTH === 'yes', env.MONGODB_USERNAME || env.MONGODB_USER, env.MONGODB_PASSWORD || env.MONGODB_PASS];
 	const [host, port, db] = [env.MONGODB_HOST || 'localhost', env.MONGODB_PORT || 27017, env.MONGODB_DATABASE || 'test'];
-	const [replSetEnabled, replSetName] = [env.MONGODDB_REPLSET === 'yes', env.MONGODB_REPLSET_NAME];
-	
+	const [replSetEnabled, replSetName] = [env.MONGODB_REPLSET === 'yes', env.MONGODB_REPLSET_NAME];
+
   return <Promise<string>>fetchServices()
     .then((services: Service[]) => {
 			const opts: any = {};
@@ -43,7 +43,7 @@ export function mongoConnectionString(fetchServices: () => Promise<Service[]>) :
 				database: db,
 				options: opts
 			};
-			
+
 			if (replSetEnabled) {
 				opts.replSet = replSetName;
 			}
@@ -62,27 +62,21 @@ function mongoConnectionStringTest() {
 	process.env.MONGODDB_REPLSET = 'yes';
 	process.env.MONGODB_REPLSET_NAME = 'rs0';
 	process.env.MONGODB_DATABASE = 'test';
-	
+
 	const exConnString = 'mongodb://user:pass@localhost:27001,localhost:27002,localhost:27003/test?replSet=rs0'
-	
+
 	mongoConnectionString(() => Promise.resolve([{
 		host: 'localhost',
 		port: 27001
 	}, {
-		host: 'localhost',
-		port: 27002
-	}, {
-		host: 'localhost',
-		port: 27003
-	}]))
+			host: 'localhost',
+			port: 27002
+		}, {
+			host: 'localhost',
+			port: 27003
+		}]))
 		.then((url: string) => {
 			console.log(url === exConnString);
 			console.log(url);
 		});
 }
-
-mongoConnectionStringTest();g(url);
-		});
-}
-
-mongoConnectionStringTest();
