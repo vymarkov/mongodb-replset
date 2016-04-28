@@ -82,9 +82,11 @@ function connection(url: () => Promise<string>, schemas: () => Promise<any>) {
 					console.log('Connected correctly to server');
 					console.log('---');
 
-					for (let schemaname of m.schemas.keys()) {
-						cachedConn.model(schemaname, m.schemas.get(schemaname));
-					}
+					// for (let schemaname ) {
+						// cachedConn.model(schemaname, m.schemas.get(schemaname));
+					// }
+					
+					Object.keys(m.schemas).forEach((schemaname: string) => cachedConn.model(m.schemas[schemaname]));
 
 					resolve(cachedConn);
 				});
@@ -101,8 +103,8 @@ function connection(url: () => Promise<string>, schemas: () => Promise<any>) {
 
 function main() {
 	const schemas = () => {
-		const schemas = new Map();
-		schemas.set('User', UserSchema);
+		const schemas = {};
+		schemas['User'] = UserSchema;
 		return Promise.resolve(schemas);
 	};
 	const manulAdrr = process.env.MANUL_ADDR || 'http://192.168.99.102:3000';
