@@ -1,4 +1,4 @@
-TAG=${IMAGE_TAG:-"latest"}
+TAG="$(node -p -e "require('./package.json').version")"
 IMAGE_NAME=${IMAGE_NAME:-"lynx"}
 
 docker build -t vymarkov/$IMAGE_NAME -f Dockerfile .
