@@ -1,6 +1,8 @@
 FROM node:5.10
 MAINTAINER Vitaly Markov "v.y.markov@gmail.com"
 
+ENV NODE_ENV=production
+
 RUN apt-get update &&\
 	apt-get install python-pip -y &&\
 	pip install httpie
